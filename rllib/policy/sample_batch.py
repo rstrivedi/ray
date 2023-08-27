@@ -638,7 +638,6 @@ class SampleBatch(dict):
                 flattened_lengths = tree.flatten(time_lengths)
                 assert all(t == flattened_lengths[0] for t in flattened_lengths)
                 data_len = flattened_lengths[0]
-                data_len = len(data[next(iter(data))])
                 if sum(seq_lens) != data_len:
                     assert sum(seq_lens) > data_len
                     seq_lens[-1] = data_len - sum(seq_lens[:-1])
