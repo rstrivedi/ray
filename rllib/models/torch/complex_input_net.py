@@ -178,7 +178,8 @@ class ComplexInputNetwork(TorchModelV2, nn.Module):
                 initializer=torch_normc_initializer(0.01),
             )
         else:
-            self.num_outputs = concat_size
+            self.num_outputs = concat_size if not self.post_fc_stack else self.post_fc_stack.num_outputs
+            # self.num_outputs = concat_size
 
     @override(ModelV2)
     def forward(self, input_dict, state, seq_lens):

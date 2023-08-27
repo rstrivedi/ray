@@ -633,6 +633,11 @@ class SampleBatch(dict):
                     state_key = "state_in_{}".format(state_idx)
                 seq_lens = list(self[SampleBatch.SEQ_LENS][state_start:state_end])
                 # Adjust seq_lens if necessary.
+                #data_len = len(data[next(iter(data))])
+                time_lengths = tree.map_structure(lambda x: len(x), data[next(iter(data))])
+                flattened_lengths = tree.flatten(time_lengths)
+                assert all(t == flattened_lengths[0] for t in flattened_lengths)
+                data_len = flattened_lengths[0]
                 data_len = len(data[next(iter(data))])
                 if sum(seq_lens) != data_len:
                     assert sum(seq_lens) > data_len
